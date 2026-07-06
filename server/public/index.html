@@ -70,7 +70,7 @@ function clamp(v, min, max){
 }
 
 function sendJoystick(x, y){
-  fetch(`/cmd/x:${x.toFixed(2)},y:${y.toFixed(2)}`);
+  fetch(`/car/cmd/x:${x.toFixed(2)},y:${y.toFixed(2)}`);
 }
 
 // --- start ---
