@@ -7,7 +7,7 @@ const char* password = "J7tm3-JF4Dv94j";
 
 // WebSocket server (твой Linux ПК)
 const char* ws_host = "192.168.88.5";
-const uint16_t ws_port = 3000;
+const uint16_t ws_port = 3030;
 
 // моторы L298N
 #define IN1 27
