@@ -1,7 +1,7 @@
 name: Publish Docker image
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   push_to_registry:
@@ -25,6 +25,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./docker/node/Dockerfile
+          file: ./server/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wificarsocket:latest
