@@ -44,7 +44,7 @@ app.get('/cmd/:dir', (req, res) => {
 });
 
 // запуск
-server.listen(3000, '0.0.0.0', () => {
+server.listen(3030, '0.0.0.0', () => {
     console.log("Server running:");
     console.log("http://192.168.88.5:3030");
 });
