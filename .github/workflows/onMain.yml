@@ -24,7 +24,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./server
           file: ./server/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wificarsocket:latest
