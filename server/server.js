@@ -59,9 +59,6 @@ wss.on('connection', (ws, req) => {
 
         if (camera === ws)
             camera = null;
-
-        browsers.delete(ws);
-
     });
 });
 
