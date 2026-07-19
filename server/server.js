@@ -28,13 +28,14 @@ wss.on('connection', (ws, req) => {
 
         // Binary data = camera frame
         if (isBinary) {
-            console.log("Camera frame:", data.length, "bytes");
             latestFrame = data;
+            broadcastFrame(data);
 
             return;
         }
 
         // Controller registration
+        console.log("WS message:", data.toString());
         if (data.toString() === "CONTROLLER") {
             controller = ws;
             console.log("Controller registered");
@@ -66,6 +67,7 @@ wss.on('connection', (ws, req) => {
 app.get('/cmd/:dir', (req, res) => {
     const cmd = req.params.dir;
     console.log("CMD from browser:", cmd);
+    console.log("Controller state:", controller ? controller.readyState : "null");
 
     if (controller && controller.readyState === 1) {
         controller.send(cmd);
@@ -82,25 +84,28 @@ app.get('/stream', (req, res) => {
         'Pragma': 'no-cache'
     });
 
-    const interval = setInterval(() => {
+    res.socket.setNoDelay(true);
 
-        if(latestFrame){
-
-            res.write(
-                `--frame\r\n` +
-                `Content-Type: image/jpeg\r\n` +
-                `Content-Length: ${latestFrame.length}\r\n\r\n`
-            );
-
-            res.write(latestFrame);
-            res.write('\r\n');
-        }
-    }, 50); // ~20 FPS
+    streamClients.push(res);
 
     req.on('close', () => {
-        clearInterval(interval);
+        streamClients = streamClients.filter(c => c !== res);
     });
 });
+
+function broadcastFrame(frame){
+    for (const res of streamClients){
+
+        res.write(
+            `--frame\r\n` +
+            `Content-Type: image/jpeg\r\n` +
+            `Content-Length: ${frame.length}\r\n\r\n`
+        );
+
+        res.write(frame);
+        res.write('\r\n');
+    }
+}
 
 // запуск
 server.listen(3030, '0.0.0.0', () => {

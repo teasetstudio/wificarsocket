@@ -53,6 +53,7 @@ body {
 
 <div class="camera-container" style="text-align:center;">
   <img id="camera" src="https://fantasybypro.com/car/stream">
+  <!-- <img id="camera" src="/stream"> -->
 </div>
 
 <div id="zone">
@@ -81,6 +82,7 @@ function clamp(v, min, max){
 
 function sendJoystick(x, y){
   fetch(`/car/cmd/x:${x.toFixed(2)},y:${y.toFixed(2)}`);
+  // fetch(`/cmd/x:${x.toFixed(2)},y:${y.toFixed(2)}`);
 }
 
 // --- start ---
