@@ -9,6 +9,7 @@ const wss = new WebSocket.Server({ server });
 let controller = null;
 let camera = null;
 let latestFrame = null;
+let streamClients = [];
 
 // отдаём HTML
 app.use(express.static('public'));
@@ -81,7 +82,8 @@ app.get('/stream', (req, res) => {
         'Content-Type': 'multipart/x-mixed-replace; boundary=frame',
         'Cache-Control': 'no-cache',
         'Connection': 'keep-alive',
-        'Pragma': 'no-cache'
+        'Pragma': 'no-cache',
+        'X-Accel-Buffering': 'no'
     });
 
     res.socket.setNoDelay(true);
